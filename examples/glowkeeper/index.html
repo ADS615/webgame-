@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1220" />
+    <meta name="description" content="A tiny moonlit arcade game about keeping the glow alive." />
+    <title>Glowkeeper — a moonlit arcade game</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Glowkeeper home">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span class="brand-copy">
+            <span class="eyebrow">A LITTLE NIGHT SHIFT</span>
+            <strong>Glowkeeper</strong>
+          </span>
+        </a>
+        <p class="topbar-note"><span class="live-dot" aria-hidden="true"></span> The meadow is awake</p>
+      </header>
+
+      <section class="game-layout" aria-label="Glowkeeper game">
+        <div class="game-column">
+          <div class="hud" role="group" aria-label="Game status">
+            <div class="hud-stat">
+              <span class="hud-label">GLOW SEEDS</span>
+              <strong class="hud-value"><span id="score-number">00</span><span> / 12</span></strong>
+            </div>
+            <div class="progress-wrap">
+              <progress id="score-progress" max="12" value="0" aria-label="Glow seeds collected">0 of 12</progress>
+            </div>
+            <div class="hud-stat hud-stat-right">
+              <span class="hud-label">DAWN IN</span>
+              <strong id="time-value" class="hud-value time-value">00:45</strong>
+            </div>
+            <div class="lantern-status" role="group" aria-label="Lantern condition">
+              <span class="hud-label">LANTERN</span>
+              <span id="hit-pips" class="hit-pips" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </span>
+              <span id="hit-description" class="sr-only">No hits</span>
+            </div>
+          </div>
+
+          <div class="stage-frame">
+            <canvas
+              id="game-canvas"
+              width="960"
+              height="600"
+              tabindex="0"
+              aria-label="Glowkeeper playfield. Use A and D or the left and right arrow keys to move. Move or drag a pointer to steer."
+              aria-describedby="game-instructions"
+            >
+              Your browser does not support Canvas. Use a modern browser to play Glowkeeper.
+            </canvas>
+
+            <div id="stage-overlay" class="stage-overlay is-active">
+              <section id="title-panel" class="overlay-card" aria-labelledby="title-heading">
+                <p class="eyebrow">THE LAST LIGHT BEFORE DAWN</p>
+                <h1 id="title-heading">Keep the <span>glow</span> alive.</h1>
+                <p class="panel-copy">Catch 12 fireflies. Dodge the ink drops. The meadow only needs one more good night.</p>
+                <p class="panel-controls">A / D or ← / → to move <span aria-hidden="true">·</span> Pointer or touch to steer</p>
+                <button id="start-button" class="button button-primary" type="button">
+                  <span>Start the night</span><span aria-hidden="true">↗</span>
+                </button>
+              </section>
+
+              <section id="pause-panel" class="overlay-card compact-card" aria-labelledby="pause-heading" hidden>
+                <p class="eyebrow">THE MEADOW CAN WAIT</p>
+                <h2 id="pause-heading">Take a breath.</h2>
+                <p class="panel-copy">Your lantern is safe for now.</p>
+                <div class="panel-actions">
+                  <button id="resume-button" class="button button-primary" type="button">Back to the meadow</button>
+                  <button id="paused-restart-button" class="button button-quiet" type="button">Start over</button>
+                </div>
+              </section>
+
+              <section id="result-panel" class="overlay-card compact-card" aria-labelledby="result-heading" hidden>
+                <p id="result-eyebrow" class="eyebrow">NIGHT COMPLETE</p>
+                <h2 id="result-heading">The glow made it home.</h2>
+                <p id="result-copy" class="panel-copy">You kept the meadow bright.</p>
+                <button id="replay-button" class="button button-primary" type="button">
+                  <span>Play another night</span><span aria-hidden="true">↗</span>
+                </button>
+              </section>
+            </div>
+          </div>
+
+          <div class="under-stage">
+            <p><span class="keycap">ESC</span> pause the night</p>
+            <button id="pause-button" class="button button-small button-quiet" type="button" hidden>Pause</button>
+            <button id="restart-button" class="button button-small button-quiet" type="button" hidden>Restart</button>
+          </div>
+        </div>
+
+        <aside class="side-panel" aria-label="How to play">
+          <section class="side-card objective-card">
+            <div class="card-icon icon-moon" aria-hidden="true"><span></span></div>
+            <p class="eyebrow">TONIGHT'S MISSION</p>
+            <h2>Bring the meadow back to life.</h2>
+            <p>Gather <strong>12 glow seeds</strong> before dawn. Three ink drops will put out your lantern.</p>
+          </section>
+
+          <section class="side-card controls-card">
+            <p class="eyebrow">HOW TO MOVE</p>
+            <div class="control-row">
+              <span class="control-glyph" aria-hidden="true">←</span>
+              <span class="control-glyph" aria-hidden="true">→</span>
+              <p>Arrow keys or <kbd>A</kbd> <kbd>D</kbd></p>
+            </div>
+            <div class="control-row">
+              <span class="pointer-glyph" aria-hidden="true">✳</span>
+              <p>Move / drag anywhere on the meadow</p>
+            </div>
+            <p id="game-instructions" class="assistive-note">Collect the bright mint fireflies. Avoid the dark violet ink drops. You have three lantern hits and forty-five seconds. Move with A and D, the left and right arrow keys, or a pointer/touch drag. Press Escape to pause.</p>
+          </section>
+
+          <section class="tip-card">
+            <span class="tip-star" aria-hidden="true">✦</span>
+            <p><strong>Little tip</strong><br />The fireflies drift faster as dawn gets closer. Watch the whole sky, not just the moth.</p>
+          </section>
+          <p class="credit-note">Original Canvas + CSS art<br />No external assets or tracking.</p>
+        </aside>
+      </section>
+
+      <footer class="footer-note">
+        <span>Made for the quiet hours.</span>
+        <span>Take your time. The stars are patient.</span>
+      </footer>
+      <p id="game-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "glowkeeper-reference-game",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 4173 --bind 0.0.0.0",
+    "check": "node --check src/main.js && node --check src/model.js && node --check src/input.js && node --check src/render.js && node --check tests/model.test.js && node --check tests/render.test.js",
+    "test": "node --test"
+  }
+}
